@@ -2,8 +2,6 @@ from monomial import Monomial
 
 
 class Parser:
-    # TODO: varidation
-
     def to_polynom(polynom_):
         list_monomials = []
         var = Parser.__get_poly_var(polynom_)
