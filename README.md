@@ -1,1 +1,1 @@
-# Hack-Bulgaria-Pyhton
+# Hack-Bulgaria-Python
