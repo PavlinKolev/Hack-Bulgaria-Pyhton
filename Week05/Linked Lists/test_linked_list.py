@@ -3,7 +3,6 @@ from linked_list import LinkedList
 
 
 class LinkedListTest(unittest.TestCase):
-
     def setUp(self):
         self.ll = LinkedList()
 
@@ -120,6 +119,7 @@ class LinkedListTest(unittest.TestCase):
         self.ll.add_element(7)
         self.ll.reduce_to_unique()
         self.assertEqual(self.ll.to_list(), [5, 6, 7])
+
 
 if __name__ == '__main__':
     unittest.main()
