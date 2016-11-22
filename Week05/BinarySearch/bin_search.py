@@ -11,14 +11,16 @@ def binary_search(array, start, end, element):
 
 
 def find_turning_point(array, start, end):
-    if (end - start) < 2:
+    if end <= start:
         return False
     middle = (start + end)//2
+    if (end - start) % 2 == 1:
+        middle += 1
     if array[middle - 1] < array[middle]:
-        res = find_turning_point(array, start, middle)
+        res = find_turning_point(array, start, middle - 1)
         if res is False:
             return find_turning_point(array, middle, end)
         else:
             return res
     else:
-        return middle
+        return "Turning point is {} on index {}.".format(array[middle], middle)
