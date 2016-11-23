@@ -9,7 +9,7 @@ class Tree:
         self.level = 0
 
     def add_child(self, parent_value, child_value):
-        parent = self.find_node(self.root, parent_value)
+        parent = self.__find_node(self.root, parent_value)
         if parent is False:
             raise "No such value in tree."
         parent.add_child(child_value)
@@ -17,23 +17,18 @@ class Tree:
             self.level = parent.get_last_child().level
         self.node_count += 1
 
-    def find_node(self, root_node, x):
+    def __find_node(self, root_node, x):
         if root_node.value == x:
             return root_node
-        if root_node.is_leaf():
-            return False
         for child in root_node.get_children():
-            res = self.find_node(child, x)
+            res = self.__find_node(child, x)
             if res:
                 return res
         return False
 
     def find(self, x):
-        if self.find_node(self.root, x):
-            return True
-        return False
-        if self.head is None:
-            self.tail = self.head
+        return bool(self.__find_node(self.root, x))
+
     def height(self):
         return self.level
 
@@ -41,30 +36,32 @@ class Tree:
         return self.node_count
 
     def tree_levels(self):
-        return self.tree_levels_with_bfs()
+        return [x for (_, x) in self.__tree_levels_with_bfs().items()]
 
-    def tree_levels_with_bfs(self):
+    def __tree_levels_with_bfs(self):
         splicer = None  # this element will splice two levels in tree
         queue_ = Queue()
 
         queue_.push_back(self.root)
         queue_.push_back(splicer)  # level:0 from tree is only with the root
 
-        levels = [[self.root.value]]
-        temp_level = []
+        levels = {0: [self.root.value], 1: []}
+        level_cnt = 1
 
         while not(queue_.is_empty()):
             node = queue_.pop()
             if node == splicer:  # if we reach splicer: or the temp level is finished or the tree is already traversed
                 if queue_.is_empty():  # tree is traversed
+                    del levels[level_cnt]  # the last (key: value) is (level_cnt: []) - unneeded
                     return levels
                 queue_.push_back(splicer)  # temp_level is finished - start new level
-                levels.append(temp_level)
-                temp_level = []
+                level_cnt += 1
+                levels[level_cnt] = []
             else:
                 for child in node.get_children():
                     queue_.push_back(child)
-                    temp_level.append(child.value)
+                    levels[level_cnt].append(child.value)
+        return levels
 
     def dfs_list(self):
         return Tree.traverse_dfs(self.root, [])

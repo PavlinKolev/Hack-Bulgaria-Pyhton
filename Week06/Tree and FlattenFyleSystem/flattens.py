@@ -15,8 +15,5 @@ def flatten_file_system2(path):
 def flatten(list_):
     res = []
     for elem in list_:
-        if type(elem) is list:
-            res += flatten(elem)
-        else:
-            res += [elem]
+        res += flatten(elem) if type(elem) is list else [elem]
     return res
