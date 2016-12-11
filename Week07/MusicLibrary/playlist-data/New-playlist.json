@@ -1,0 +1,25 @@
+{
+    "name": "New playlist",
+    "repeat": true,
+    "shuffle": true,
+    "songs": [
+        {
+            "title": "Cheap Thrills",
+            "artist": "Sia",
+            "album": "This Is Acting",
+            "length": "03:31"
+        },
+        {
+            "title": "Never Give Up",
+            "artist": "Sia",
+            "album": "This Is Acting",
+            "length": "03:42"
+        },
+        {
+            "title": "Alone",
+            "artist": "Alan Walker",
+            "album": "Alan Walker",
+            "length": "02:43"
+        }
+    ]
+}
