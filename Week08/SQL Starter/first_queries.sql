@@ -52,11 +52,11 @@ WHERE name="MGM";
 SELECT title
 FROM movie
 WHERE length > (SELECT length
-					FROM movie
-					WHERE title="Gone With the Wind");
+		FROM movie
+		WHERE title="Gone With the Wind");
 					
 SELECT name
 FROM movieexec
 WHERE networth > (SELECT networth
-					FROM movieexec
-					WHERE name="Merv Griffin");
+		FROM movieexec
+		WHERE name="Merv Griffin");
