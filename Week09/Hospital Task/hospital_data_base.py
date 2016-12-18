@@ -87,12 +87,7 @@ class HospitalDB:
 
     def list_all_patients(self):
         self.cursor.execute(LIST_ALL_PATIENTS)
-        patients = self.cursor.fetchall()
-        table = PrettyTable()
-        table.field_names = ["ID", "Fistname", "Lastname", "Age"]
-        for p in patients:
-            table.add_row([p[0], p[1], p[2], p[3]])
-        print(table)
+        self.__print_patients_after_query()
 
     def list_all_doctors(self):
         self.cursor.execute(LIST_ALL_DOCTORS)
@@ -101,6 +96,14 @@ class HospitalDB:
         table.field_names = ["Id", "Firstname", "Lastname", "Academic title"]
         for d in doctors:
             table.add_row([d[0], d[1], d[2], d[3]])
+        print(table)
+
+    def __print_patients_after_query(self):
+        patients = self.cursor.fetchall()
+        table = PrettyTable()
+        table.field_names = ["ID", "Fistname", "Lastname", "Age"]
+        for p in patients:
+            table.add_row([p[0], p[1], p[2], p[3]])
         print(table)
 
     def update_patient_first_name(self, patient_id, first_name):
@@ -168,6 +171,21 @@ class HospitalDB:
         self.cursor.execute(UPDATE_HS_PATIENT_ID, (patient_id, hs_id))
         self.db.commit()
 
+    def all_patients_by_doctor(self, doctor_id):
+        self.__check_doctor_id(doctor_id)
+        self.cursor.execute(LIST_PATIENTS_OF_DOCTOR, (doctor_id,))
+        self.__print_patients_after_query()
+
+    def all_patients_with_injury(self, injury):
+        HospitalDB.check_injury(injury)
+        self.cursor.execute(PATIENTS_GROUP_BY_INJURY, (injury,))
+        self.__print_patients_after_query()
+
+    def all_patients_between_dates(self, startdate, enddate):
+        # TODO: validation for dates
+        self.cursor.execute(PATIENTS_BETWEEN_DATES, (startdate, enddate))
+        self.__print_patients_after_query()
+
     def __validate_patient_data(self, age, gender, doctor_id):
         HospitalDB.check_patient_age(age)
         HospitalDB.check_patient_gender(gender)
@@ -184,6 +202,7 @@ class HospitalDB:
     def __check_hs_id(self, hs_id):
         if hs_id not in self.hospital_stay_ids:
             raise ValueError("There is no hospidatl stay with this id.")
+
     @staticmethod
     def check_patient_age(age):
         if type(age) is not int:
