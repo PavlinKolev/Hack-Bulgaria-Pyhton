@@ -1,12 +1,12 @@
 import sqlite3
 from prettytable import PrettyTable
 from queries import *
-from settings import *
+from settings import DEFAULT_HOSPITAL_NAME, ACADEMIC_TITLES, INJURIES
 
 
 class HospitalDB:
     def __init__(self, name=DEFAULT_HOSPITAL_NAME):
-        self.db = sqlite3.connect(name)
+        self.db = sqlite3.connect(name + '.db')
         self.db.row_factory = sqlite3.Row
         self.cursor = self.db.cursor()
         self.__create_doctors_table()
@@ -15,6 +15,13 @@ class HospitalDB:
         self.set_patients_ids()
         self.set_doctors_ids()
         self.set_hospital_ids()
+
+    def __del__(self):
+        self.db.close()
+
+    # we want to close the database even if not handled exeption occurs
+    def __exit__(Self, exc_type, exc_value, traceback):
+        self.db.close()
 
     def set_patients_ids(self):
         self.cursor.execute(LIST_PATIENT_IDS)
@@ -81,7 +88,7 @@ class HospitalDB:
         self.db.commit()
 
     def delete_hospital_stay(self, hospital_stay_id):
-        self.__check_hs_id(hs_id)
+        self.__check_hs_id(hospital_stay_id)
         self.cursor.execute(DELETE_HOSPITAL_STAY, (hospital_stay_id,))
         self.db.commit()
 
@@ -95,7 +102,7 @@ class HospitalDB:
         table = PrettyTable()
         table.field_names = ["Id", "Firstname", "Lastname", "Academic title"]
         for d in doctors:
-            table.add_row([d[0], d[1], d[2], d[3]])
+            table.add_row(d)
         print(table)
 
     def __print_patients_after_query(self):
@@ -103,24 +110,29 @@ class HospitalDB:
         table = PrettyTable()
         table.field_names = ["ID", "Fistname", "Lastname", "Age"]
         for p in patients:
-            table.add_row([p[0], p[1], p[2], p[3]])
+            table.add_row(p)
         print(table)
 
     def update_patient_first_name(self, patient_id, first_name):
         self.__check_patient_id(patient_id)
-        self.cursor.execute(UPDATE_DOCTOR_FIRSTNAME, (first_name, patient_id))
+        self.cursor.execute(UPDATE_PATIENT_FIRSTNAME, (first_name, patient_id))
         self.db.commit()
 
     def update_patient_last_name(self, patient_id, last_name):
         self.__check_patient_id(patient_id)
-        self.cursor.execute(UPDATE_DOCTOR_LASTNAME, (last_name, patient_id))
+        self.cursor.execute(UPDATE_PATIENT_LASTNAME, (last_name, patient_id))
         self.db.commit()
 
     def update_patient_age(self, patient_id, age):
-        HospitalDB.check_patient_age()
+        HospitalDB.check_patient_age(age)
         self.__check_patient_id(patient_id)
         self.cursor.execute(UPDATE_PATIENT_AGE, (age, patient_id))
         self.db.commit()
+
+    def update_patient_gender(self, patient_id, gender):
+        HospitalDB.check_patient_gender(gender)
+        self.__check_patient_id(patient_id)
+        self.cursor.execute(UPDATE_PATIENT_GENDER, (gender, patient_id))
 
     def update_patient_doctors_id(self, patient_id, doctor_id):
         self.__check_patient_id(patient_id)
@@ -180,6 +192,15 @@ class HospitalDB:
         HospitalDB.check_injury(injury)
         self.cursor.execute(PATIENTS_GROUP_BY_INJURY, (injury,))
         self.__print_patients_after_query()
+
+    def all_doctors_diseases(self):
+        self.cursor.execute(DOCTORS_DISIESES)
+        doctors = self.cursor.fetchall()
+        table = PrettyTable()
+        table.field_names = ["Doctor", "Diseases"]
+        for d in doctors:
+            table.add_row(d)
+        print(table)
 
     def all_patients_between_dates(self, startdate, enddate):
         # TODO: validation for dates
