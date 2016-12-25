@@ -1,8 +1,12 @@
+from functools import wraps
+
+
 def accepts(*args):
     types = args
 
     def accepter(func):
-        def check_arguments_types(*args):
+        @wraps(func)
+        def decorator(*args, **kwargs):
             if len(types) != len(args):
                 raise TypeError("Not equals lengths.")
             for i in range(len(types)):
@@ -12,6 +16,6 @@ def accepts(*args):
                                                         func.__name__,
                                                         types[i].__name__)
                     raise TypeError(output)
-            return func(*args)
-        return check_arguments_types
+            return func(*args, **kwargs)
+        return decorator
     return accepter
