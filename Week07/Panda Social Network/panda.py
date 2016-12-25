@@ -10,10 +10,10 @@ class Panda:
             and self._gender == other._gender
 
     def __hash__(self):
-        return hash(self._name)*hash(self._mail)*hash(self._gender)
+        return hash(self._name)*hash(self._email)*hash(self._gender)
 
     def __str__(self):
-        return "{} {} {}".format(self._name, self._mail, self._gender)
+        return "Panda: {} {} {}".format(self._name, self._email, self._gender)
 
     def __repr__(self):
         return self.__str__()
@@ -22,16 +22,22 @@ class Panda:
         return self._name
 
     def email(self):
-        return self._mail
+        return self._email
 
     def gender(self):
         return self._gender
 
     def isMale(self):
-        return self.gender == "male"
+        return self._gender == "male"
 
-    def isFemaile(self):
+    def isFemale(self):
         return not(self.isMale())
+
+    def to_dict(self):
+        return {
+                "name": self._name,
+                "email": self._email,
+                "gender": self._gender}
 
     def __set_name(self, name):
         if type(name) is not str:
@@ -51,3 +57,8 @@ class Panda:
             raise TypeError("Gender of panda must be string")
         if gender != "male" and gender != "female":
             raise ValueError("Not a valid type of gender.")
+        self._gender = gender
+
+    @staticmethod
+    def create_from_dict(dict_panda):
+        return Panda(dict_panda["name"], dict_panda["email"], dict_panda["gender"])

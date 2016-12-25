@@ -1,10 +1,10 @@
-from tree_node import Node
+from tree_node import TreeNode
 from queue import Queue
 
 
 class Tree:
     def __init__(self, root_value):
-        self.root = Node(root_value)
+        self.root = TreeNode(root_value)
         self.node_count = 1
         self.level = 0
 
@@ -33,6 +33,12 @@ class Tree:
         if self.__find_path(self.root, target, path_list):
             return [self.root.value] + path_list
         return False
+
+    def nth_tree_level(self, n):
+        levels = self.tree_levels()
+        if n < 1 or n >= len(levels):
+            return []
+        return levels[n]
 
     def __find_path(self, temp_node, target, path_list):
         if temp_node.value == target:
