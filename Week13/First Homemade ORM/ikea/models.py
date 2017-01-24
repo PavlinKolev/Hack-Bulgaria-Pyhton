@@ -7,7 +7,7 @@ from ikea.generate_queries import create_table_query
 class BaseModel(metaclass=DateBaseMeta):
     __tablename__ = None
 
-    db = sqlite3.connect("ikea666.db")
+    db = sqlite3.connect("ikea.db")
     db.row_factory = sqlite3.Row
     c = db.cursor()
 
