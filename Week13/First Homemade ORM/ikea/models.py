@@ -1,18 +1,22 @@
 import sqlite3
 from ikea.base import DateBaseMeta
 from ikea.fields import PKColumn, TextColumn, IntegerColumn
+from ikea.generate_queries import create_table_query
 
 
 class BaseModel(metaclass=DateBaseMeta):
     __tablename__ = None
 
-    # db = sqlite3.connect("test.db")
-    # db.row_factory = sqlite3.Row
-    # c = db.cursor()
+    db = sqlite3.connect("ikea.db")
+    db.row_factory = sqlite3.Row
+    c = db.cursor()
 
     @classmethod
     def create_all_tables(cls):
-        print([cl.__name__ for cl in cls._registry])
+        for cl in cls._registry:
+            cls.c.execute(create_table_query(cl))
+
+        cls.db.commit()
 
     @classmethod
     def create_obj(cls, **kwargs):

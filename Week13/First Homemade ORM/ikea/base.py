@@ -13,7 +13,6 @@ class DateBaseMeta(type):
             clsdict.pop(key)
 
         clsdict['_fields'] = fields
-
         obj = super().__new__(cls, name, bases, clsdict)
 
         if not hasattr(obj, '_registry'):
