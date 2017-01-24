@@ -3,7 +3,7 @@ def create_table_query(cl):
     columns_count = len(cl._fields)
     index = 0
     for k, v in cl._fields.items():
-        res += k.upper() + ' ' + str(v)
+        res += k + ' ' + str(v)
         index += 1
         if index == columns_count:
             res += '\n'
