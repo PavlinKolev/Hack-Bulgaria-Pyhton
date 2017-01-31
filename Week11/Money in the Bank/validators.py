@@ -1,15 +1,17 @@
-from clinet import Client
+from client import Client
 from settings import MIN_PASS_LEN
-
-
-def validate_client_message(message):
-    if type(message) is not str:
-        raise TypeError("Message of client must have type str.")
 
 
 def validate_client(client):
     if type(client) is not Client:
         raise TypeError("Type of client object must be Clinet.")
+    return True
+
+
+def validate_username(username):
+    if any(x in username for x in [' ', '   ', '\n']):
+        raise ValueError("Username cannot contains white space.")
+    return True
 
 
 def validate_password(password, username):
@@ -33,3 +35,4 @@ def validate_password(password, username):
         raise ValueError("Password must have special letter.")
     if no_digit:
         raise ValueError("Password must have digit.")
+    return True

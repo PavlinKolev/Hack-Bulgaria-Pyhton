@@ -1,6 +1,6 @@
 import sqlite3
 from client import Client
-from validators import validate_client, validate_client_message, validate_password
+from validators import validate_client, validate_password, validate_username
 from password import encode
 from queries import (CREATE_CLIENTS_TABLE, UPDATE_MESSAGE_OF_CLIENT,
                     UPDATE_PASSWORD_OF_CLIENT, ADD_CLIENT, GET_CLIENT_DATA, GET_USERNAME_BY_ID)
@@ -18,7 +18,6 @@ class SQL_Manager:
         self.db.commit()
 
     def change_message_of_client(self, new_message, logged_user):
-        validate_client_message(new_message)
         self.__validate_logged_user(logged_user)
         self.cursor.execute(UPDATE_MESSAGE_OF_CLIENT, (new_message, logged_user.get_id()))
         logged_user.set_message(new_message)
@@ -32,6 +31,7 @@ class SQL_Manager:
         self.db.commit()
 
     def register_new_client(self, username, password):
+        validate_username(username)
         validate_password(password, username)
         self.cursor.execute(ADD_CLIENT, (username, encode(password)))
         self.db.commit()
