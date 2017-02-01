@@ -15,7 +15,7 @@ class TestValidators(unittest.TestCase):
         self.assertTrue(validate_username("John"))
         self.assertTrue(validate_username("John_Smith"))
 
-    def test_validate_username_exept(self):
+    def test_validate_username_except(self):
         self.assertRaises(ValueError, validate_username, "OR 1 = 1 --")
         self.assertRaises(ValueError, validate_username, "John  Smith ")
         self.assertRaises(ValueError, validate_username, "John\nSmith")
