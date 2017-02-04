@@ -43,6 +43,15 @@ class SqlManagerTests(unittest.TestCase):
         logged_user = self.manager.login_client('Tester2', new_password)
         self.assertEqual(logged_user.get_username(), 'Tester2')
 
+    def test_login_bruteforce(self):
+        self.assertFalse(self.manager.login_client("Dinko", "WrongPass12??3"))
+        self.assertFalse(self.manager.login_client("Dinko", "WrongPass12??3"))
+        self.assertFalse(self.manager.login_client("Dinko", "WrongPass12??3"))
+        self.assertFalse(self.manager.login_client("Dinko", "WrongPass12??3"))
+        self.assertFalse(self.manager.login_client("Dinko", "WrongPass12??3"))
+        self.assertRaises(ValueError, self.manager.login_client, "Dinko", "WrongPass12??3")
+
+
     @classmethod
     def tearDownClass(cls):
         os.remove("test_bank.db")

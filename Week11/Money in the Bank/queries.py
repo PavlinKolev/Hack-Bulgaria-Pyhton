@@ -11,13 +11,11 @@ CREATE_CLIENTS_TABLE = '''
         )
 '''
 
-
 UPDATE_MESSAGE_OF_CLIENT = '''
     UPDATE CLIENTS
     SET message = ?
     WHERE id == ?
 '''
-
 
 UPDATE_PASSWORD_OF_CLIENT = '''
     UPDATE CLIENTS
@@ -25,22 +23,28 @@ UPDATE_PASSWORD_OF_CLIENT = '''
     WHERE id == ?
 '''
 
-
 ADD_CLIENT = '''
     INSERT INTO CLIENTS(username, password)
     VALUES (?, ?)
 '''
-
 
 GET_CLIENT_DATA = '''
     SELECT id, balance, message
     FROM CLIENTS
     WHERE username == ? AND password == ?
 '''
+
 GET_ALL_USERAMES = '''
     SELECT username
     FROM CLIENTS
 '''
+
+GET_USERNAME_BY_ID = '''
+    SELECT username
+    FROM CLIENTS
+    WHERE id == ?
+'''
+
 GET_USERNAME_BY_ID = '''
     SELECT username
     FROM CLIENTS

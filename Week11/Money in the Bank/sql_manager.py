@@ -4,11 +4,13 @@ from client import Client
 from validators import validate_client, validate_password, validate_username
 from password import encode
 from queries import (CREATE_CLIENTS_TABLE, UPDATE_MESSAGE_OF_CLIENT, GET_ALL_USERAMES,
-                    UPDATE_PASSWORD_OF_CLIENT, ADD_CLIENT, GET_CLIENT_DATA,
+                    UPDATE_PASSWORD_OF_CLIENT, ADD_CLIENT, GET_CLIENT_DATA, GET_USERNAME_BY_ID,
                     GET_COUNT_TRIES, SET_COUNT_TRIES, GET_TIME_FOR_WRONG_TRIES,
                     SET_TIME_FOR_WRONG_TRIES, GET_TIME_BANNED, SET_TIME_BANNED)
 
-
+#
+#    I implemented the first six steps from the task
+#
 class SQL_Manager:
     def __init__(self, db_name="bank.db"):
         self.db = sqlite3.connect(db_name)
