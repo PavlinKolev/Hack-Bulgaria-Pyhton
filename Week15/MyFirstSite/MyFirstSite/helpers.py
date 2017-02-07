@@ -4,12 +4,10 @@ def factorial(n):
     return n*factorial(n - 1)
 
 
-def fibonacci(n):
-    if n <= 1:
-        return 1
-    if n == 2:
-        return 2
-    return fibonacci(n - 1) + fibonacci(n - 2)
+def fibonacci(n, f1=0, f2=1):
+    if n == 0:
+        return f2
+    return fibonacci(n - 1, f2, f1 + f2)
 
 
 def first_N_primes(n):
