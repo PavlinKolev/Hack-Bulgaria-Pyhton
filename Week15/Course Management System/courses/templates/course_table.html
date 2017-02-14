@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>All courses</title>
+</head>
+<body>
+    <table style="width:100%">
+     <tr>
+       <th>Name</th>
+       <th>Description</th>
+       <th>Start Date</th>
+       <th>End Date</th>
+       <th>Approximate Duration</th>
+     </tr>
+     {% for course in all_courses %}
+     <tr>
+       <th>{{course.name}}</th>
+       <th>{{course.descr}}</th>
+       <th>{{course.start_date}}</th>
+       <th>{{course.end_date}}</th>
+       <th>3 months</th>
+     </tr>
+     {% endfor %}
+    </table>
+</body>
+</html>
