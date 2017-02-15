@@ -1,17 +1,13 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from courses.models import Course
+from lectures.models import Lecture
 
 
-def courses_table(request):
-    all_courses = Course.objects.all()
-    return render(request, "course_table.html", locals())
-
-
-def display_couse(request, course_name):
-    import ipdb; ipdb.set_trace()
-    # course = Course.objects.get(name=course_name)
+def display_course(request, course_name):
+    # import ipdb; ipdb.set_trace()
     course = get_object_or_404(Course, name=course_name)
+    lectures = Lecture.objects.filter(course=course)
     return render(request, "course.html", locals())
 
 

@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Create new lecture</title>
+        <style>
+              .form-container {
+                margin:10px;
+                padding:10px;
+                border: 1px solid grey;
+              }
+
+        </style>
+    </head>
+    <body>
+      <div class="form-container">
+        <form method="POST" action="">
+          {% csrf_token %}
+          <label>Name:</label>
+          <input type="text" value={{lecture.name}} name="name"/>
+
+          <label>Week:</label>
+          <input type="number" value={{lecture.week}} name="week"/>
+
+          <select name="course_id">
+              <option value={{lecture.course.id}} >{{lecture.course.name}}</option>
+              {% for course in all_courses %}
+                {% if course.id != lecture.course.id %}
+                    <option value={{course.id}} >{{course.name}}</option>
+                {% endif %}
+              {% endfor %}
+          </select>
+
+          <label> Lecture url: </label>
+          <input type="text" value={{lecture.url}} name="url"/>
+
+          <input type="submit" name="edit" value="edit"/>
+          <input type="submit" name="cancel" value="cancel"/>
+        </form>
+      </div>
+    </body>
+</html>

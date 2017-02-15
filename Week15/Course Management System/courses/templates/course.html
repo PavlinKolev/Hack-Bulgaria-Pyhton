@@ -1,1 +1,28 @@
-Course name: {{course.name}}
+<html>
+  <head>
+    <title>{{lecture.name}}</title>
+</head>
+<body>
+    <table style="width:100%">
+     <tr>
+       <th>Name</th>
+       <th>Description</th>
+       <th>Start Date</th>
+       <th>End Date</th>
+       <th>Approximate duration</th>
+       <th>Lectures</th>
+     </tr>
+     <tr>
+       <th>{{course.name}}</th>
+       <th>{{course.descr}}</th>
+       <th>{{course.start_date}}</th>
+       <th>{{course.end_date}}</th>
+       <th>{{course.get_duration}}</th>
+       <th>{% for lecture in lectures%}
+           <p> <a href="http://127.0.0.1:8000/lecture/{{lecture.id}}/">{{lecture.name}}</a></p>
+           {% endfor %}
+       </th>
+     </tr>
+    </table>
+</body>
+</html>
