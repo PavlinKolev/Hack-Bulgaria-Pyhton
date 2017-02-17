@@ -8,6 +8,9 @@ class Lecture(models.Model):
     course = models.ForeignKey(Course, blank=True, null=True)
     url = models.CharField(max_length=120)
 
+    def set(self, attr, value):
+        getattr(self, "set_" + attr)(value)
+
     def set_name(self, name):
         self.name = name
 
@@ -19,3 +22,11 @@ class Lecture(models.Model):
 
     def set_url(self, url):
         self.url = url
+
+    def get_dict(self):
+        return {
+            "name": self.name,
+            "week": self.week,
+            "course": self.course.id,
+            "url": self.url
+        }

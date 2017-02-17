@@ -15,18 +15,7 @@
       <div class="form-container">
         <form method="POST" action="">
           {% csrf_token %}
-          <label>Name:</label>
-          <input type="text" value={{course.name}} name="name"/>
-
-          <label>Description:</label>
-          <input type="text" value={{course.descr}} name="descr"/>
-
-          <label>Start Date:</label>
-          <input type="date" value={{start_date}} name="start_date"/>
-
-          <label>End Date:</label>
-          <input type="date" value={{end_date}} name="end_date"/>
-
+          {{ form }}
           <input type="submit" value="edit" />
         </form>
       </div>
